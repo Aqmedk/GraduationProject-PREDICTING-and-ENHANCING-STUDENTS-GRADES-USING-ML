@@ -1,0 +1,226 @@
+<%- include('partials/header') -%>
+
+<style>
+* {font-weight: lighter;}
+    .resources-main-container {
+        max-width: 800px;
+        margin: 60px auto 0 auto;
+        padding: 40px 30px 30px 30px;
+        background: rgba(10, 55, 36, 0.95); /* keep original background */
+        border-radius: 18px;
+        color: #fff;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        animation: slideUp 0.6s ease-out;
+        
+    }
+    @keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+    .resources-title {
+        font-size: 2.2rem;
+        font-weight: 400;
+        margin-bottom: 18px;
+        letter-spacing: 1px;
+        text-align: center;
+    }
+    
+
+    .resourcesContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        margin-top: 30px;
+        justify-content: center;
+    }
+    .resource-card {
+        background: #132e15;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+        padding: 24px 20px 18px 20px;
+        min-width: 260px;
+        max-width: 340px;
+        flex: 1 1 260px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .resource-card:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 8px 32px rgba(16,163,127,0.13);
+    }
+    .resource-type {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #10A37F;
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+        display: flex;
+        font-weight: lighter;
+        align-items: center;
+        gap: 8px;
+    }
+    .resource-icon {
+        width: 22px;
+        height: 22px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .resource-link {
+        font-size: 1.08rem;
+        font-weight: 500;
+        color: #fff;
+        text-decoration: none;
+        margin-bottom: 6px;
+        display: inline-block;
+        transition: color 0.2s;
+        word-break: break-all;
+    }
+    .resource-link:hover {
+        color: #10A37F;
+        text-decoration: underline;
+    }
+    .resource-desc {
+        font-size: 0.97rem;
+        color: #d3d3d3;
+        margin-bottom: 0;
+        font-weight: 400;
+    }
+    @media (max-width: 700px) {
+        .resources-main-container {
+            padding: 18px 4vw 18px 4vw;
+        }
+        .resourcesContainer {
+            flex-direction: column;
+            gap: 18px;
+        }
+        .resource-card {
+            min-width: 0;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="resources-main-container">
+    <div class="resources-title">Course Resources</div>
+    <div id="courseSelection" style="text-align:center; margin-bottom: 18px;">
+        <select id="courseSelect" class="courseSelect">
+            <option value="">-- Choose Course --</option>
+            <option value="CS383">CS383</option>
+            <option value="MATH116">MATH116</option>
+            <option value="CS214">CS214</option>
+        </select>
+        <button class="btn" onclick="showResources()">Show Resources</button>
+    </div>
+    <h2 id="courseTitle" class="courseTitle" style="font-size:1.3rem; font-weight:400; text-align:center; margin-bottom: 0; margin-top: 0;">Select a Course to View Resources</h2>
+    <div id="resourcesDisplay"></div>
+</div>
+
+<script>
+    // Realistic resources for each course
+    const resources = {
+        CS214: {
+            YouTube: [
+                { title: "Data Structures Easy to Advanced Course - Full Tutorial from a Google Engineer", url: "https://www.youtube.com/watch?v=RBSGKlAvoiM", description: "Comprehensive data structures course covering lists, trees, and more." },
+                { title: "Algorithms Course - Full Playlist", url: "https://www.youtube.com/playlist?list=PL2_aWCzGMAwLLTJfQPn5j6DqyoGHdW6kt", description: "Algorithms explained with code and visuals." }
+            ],
+            PDF: [
+                { title: "Data Structures and Algorithms Notes (PDF)", url: "https://www.cs.cmu.edu/~adamchik/15-121/lectures/", description: "Lecture notes and slides from CMU." }
+            ],
+            Book: [
+                { title: "Data Structures and Algorithms in Java by Goodrich", url: "https://b-ok.global/book/2320820/7b1b7d", description: "Popular textbook for CS214 topics." }
+            ]
+        },
+        MATH116: {
+            YouTube: [
+                { title: "Calculus 2 - Integration Techniques, Series, and More", url: "https://www.youtube.com/watch?v=rfG8ce4nNh0", description: "Covers all major Calculus II topics." },
+                { title: "Khan Academy - Calculus II", url: "https://www.youtube.com/playlist?list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6", description: "Khan Academy's full Calculus II playlist." }
+            ],
+            PDF: [
+                { title: "MIT OpenCourseWare Calculus II Notes", url: "https://ocw.mit.edu/courses/mathematics/18-02sc-multivariable-calculus-fall-2010/resources/", description: "Lecture notes and problem sets." }
+            ],
+            Book: [
+                { title: "Calculus: Early Transcendentals by Stewart", url: "https://b-ok.global/book/2542036/7b1b7d", description: "Standard textbook for calculus courses." }
+            ]
+        },
+        CS383: {
+            YouTube: [
+                { title: "Software Engineering Full Course - Software Development Life Cycle", url: "https://www.youtube.com/watch?v=mtH5crQp5jY", description: "Covers SDLC, requirements, design, and more." },
+                { title: "Agile Methodology Tutorial", url: "https://www.youtube.com/watch?v=Z9QbYZh1YXY", description: "Agile explained for software engineering." }
+            ],
+            PDF: [
+                { title: "IEEE SRS Template (PDF)", url: "https://www.ieee.org/content/dam/ieee-org/ieee/web/org/conferences/Conference-template-A4.pdf", description: "Official IEEE SRS template." }
+            ],
+            Book: [
+                { title: "Software Engineering by Ian Sommerville", url: "https://b-ok.global/book/2542036/7b1b7d", description: "Comprehensive software engineering textbook." }
+            ]
+        }
+    };
+
+    function getResourceIcon(type) {
+        if (type === 'YouTube') {
+            // YouTube play button in a red circle
+            return `<svg class='resource-icon' viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="16" fill="#FF0000"/><polygon points="13,10 24,16 13,22" fill="#fff"/></svg>`;
+        } else if (type === 'PDF') {
+            // Clean PDF icon: red border, white fill, PDF text
+            return `<svg class='resource-icon' viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="7" y="5" width="18" height="22" rx="3" fill="#fff" stroke="#E53935" stroke-width="2"/>
+  <text x="16" y="23" text-anchor="middle" font-size="8" fill="#E53935" font-family="Arial, Helvetica, sans-serif" font-weight="bold">PDF</text>
+</svg>`;
+        } else if (type === 'Book') {
+            // Modern open book icon
+            return `<svg class='resource-icon' viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M6 8C6 6.89543 6.89543 6 8 6H15C16.1046 6 17 6.89543 17 8V26C17 27.1046 16.1046 28 15 28H8C6.89543 28 6 27.1046 6 26V8Z" fill="#43A047" stroke="#388E3C" stroke-width="1.5"/>
+  <path d="M26 8C26 6.89543 25.1046 6 24 6H17C15.8954 6 15 6.89543 15 8V26C15 27.1046 15.8954 28 17 28H24C25.1046 28 26 27.1046 26 26V8Z" fill="#66BB6A" stroke="#388E3C" stroke-width="1.5"/>
+  <line x1="15.5" y1="7" x2="15.5" y2="27" stroke="#222" stroke-width="1.5"/>
+</svg>`;
+        }
+        return '';
+    }
+
+    function showResources() {
+        const selected = document.getElementById("courseSelect").value;
+        const display = document.getElementById("resourcesDisplay");
+        display.innerHTML = "";
+
+        if (!selected || !resources[selected]) {
+            document.getElementById("courseTitle").innerText = "Select a Course to View Resources";
+            return;
+        }
+
+        document.getElementById("courseTitle").innerText = `${selected} Resources`;
+
+        const container = document.createElement("div");
+        container.className = "resourcesContainer";
+        let hasResource = false;
+        for (const [resourceType, items] of Object.entries(resources[selected])) {
+            if (!items.length) continue;
+            hasResource = true;
+            items.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "resource-card";
+                card.innerHTML = `
+                    <div class="resource-type">${getResourceIcon(resourceType)}${resourceType}</div>
+                    <a class="resource-link" href="${item.url}" target="_blank">${item.title}</a>
+                    <p class="resource-desc">${item.description || ''}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+        if (!hasResource) {
+            container.innerHTML = `<div style='color:#aaa; text-align:center; width:100%; font-size:1.1rem;'>No resources available for this course yet.</div>`;
+        }
+        display.appendChild(container);
+    }
+</script>
+
+<%- include('partials/footer') -%>

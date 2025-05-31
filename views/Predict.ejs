@@ -1,0 +1,175 @@
+<%- include("partials/header.ejs") %>
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .predict-container {
+        width: 25%; /* Changed from max-width to width */
+        min-width: 400px; /* Added minimum width */
+        padding: 40px;
+        margin-top: 50px;
+        background: rgba(10, 55, 36, 0.95);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        animation: slideIn 0.5s ease-out;
+        text-align: center;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .predict-title {
+        font-size: 2.2rem;
+        font-weight: lighter;
+        margin-bottom: 30px;
+        text-align: center;
+        color: white;
+    }
+
+    .predict-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .input-group {
+        width: 100%; /* Added full width */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .input-group label {
+        color: #d3d3d3;
+        font-size: 0.9rem;
+        font-weight: lighter;
+    }
+
+    .input-group select,
+    .input-group input {
+        width: 100%; /* Make inputs take full width */
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: rgb(255, 255, 255);
+        color: #0c441f;
+        font-size: 1rem;
+        font-weight: lighter;
+    }
+
+
+    .prediction-result {
+        margin-top: 30px;
+        padding: 20px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .result-title {
+        font-size: 1.2rem;
+        color: #47d147;
+        margin-bottom: 15px;
+        font-weight: lighter;
+    }
+
+    .grade-display {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 40px;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .grade-item {
+        text-align: center;
+    }
+
+    .grade-label {
+        color: #d3d3d3;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .grade-value {
+        font-size: 2rem;
+        color: #47d147;
+        font-weight: lighter;
+    }
+
+</style>
+
+<div class="predict-container">
+    <h1 class="predict-title">Grade Prediction</h1>
+
+    <form action="/predict" method="POST" class="predict-form">
+        <div class="input-group">
+            <label for="subject">Select Course</label>
+            <select id="subject" name="subject" required>
+                <option value="" disabled selected>Choose a course</option>
+                <option value="CS383">CS383</option>
+                <option value="CS214">CS214</option>
+                <option value="MATH116">MATH116</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="semHours">Semester Hours</label>
+            <input type="number" name="semHours" id="semHours" placeholder="Enter semester hours" min="0" max="20" required>
+        </div>
+
+                   
+                <button  class="button button-item" type="submit" style="width: 100px;  align-self: center; padding-left: 59px;" >
+                  <span class="button-bg">
+                    <span class="button-bg-layers">
+                      <span class="button-bg-layer button-bg-layer-1 -purple"></span>
+                      <span class="button-bg-layer button-bg-layer-2 -turquoise"></span>
+                      <span class="button-bg-layer button-bg-layer-3 -yellow"></span>
+                    </span>
+                  </span>
+                  <span class="button-inner">
+                    <span class="button-inner-static" >PREDICT</span>
+                    <span class="button-inner-hover">PREDICT</span>
+                  </span>
+                </button>
+             
+    </form>
+
+    <% if (prediction) { %>
+        <div class="prediction-result">
+            <div class="result-title">Prediction Result</div>
+            <p>Course: <%= prediction.subject %></p>
+            <div class="grade-display">
+                <div class="grade-item">
+                    <div class="grade-label">Numerical Grade</div>
+                    <div class="grade-value"><%= prediction.numerical_grade.toFixed(2) %></div>
+                </div>
+                <div class="grade-item">
+                    <div class="grade-label">Letter Grade</div>
+                    <div class="grade-value"><%= prediction.letter_grade %></div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<%- include("partials/footer.ejs") %>

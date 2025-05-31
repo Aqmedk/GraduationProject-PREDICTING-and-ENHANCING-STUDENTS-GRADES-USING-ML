@@ -1,0 +1,45 @@
+<%- include('partials/header') -%>
+
+<style>
+    .home-container {
+        max-width: 600px;
+        margin: 100px auto;
+        background-color: rgba(30, 61, 41, 0.9);
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .home-title {
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+
+    .home-button {
+        display: block;
+        width: 100%;
+        margin: 15px 0;
+        padding: 15px;
+        font-size: 18px;
+        background-color: #2e7d32;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .home-button:hover {
+        background-color: #1b5e20;
+    }
+</style>
+
+<div class="container">
+    <div class="home-title">Enhancement</div>
+    <button class="btn" onclick="location.href='/QuizPages'">Take Quiz</button>
+    <button class="btn" onclick="location.href='/resources'">View Resources</button>
+</div>
+
+<%- include('partials/footer') -%>

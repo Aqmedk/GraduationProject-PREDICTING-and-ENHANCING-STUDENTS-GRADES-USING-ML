@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <title>Predict</title>
+</head>
+<style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 500px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        input, select {
+            width: 80%;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .courses {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+            width: 80%;
+            margin: 10px 0;
+        }
+
+        .courses select {
+            width: 33%;
+        }
+
+        .btn {
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+<body>    <!-- Login Page -->
+    <form action="/Login" method="POST" id="loginForm" onsubmit="return validateForm(event)">
+        <div class="container" id="login-page">
+            <h1>LOGIN</h1>
+            <input type="text" name="email" id="email" required placeholder="EMAIL">
+            <input type="password" name="password" id="password" required placeholder="PASSWORD">
+            <button  type="submit" class="btn">LOGIN</button>
+            <div class="register-link">
+                <% if (errmsg) { %> 
+                    <p id="error" style="color: red; font-weight: lighter;"><%= errmsg %></p>
+                <% } %>
+                <p>Don't have an account? <a href="/Register">Register</a></p>
+            </div>
+        </div>
+    </form>
+<%- include("partials/footer.ejs") %>

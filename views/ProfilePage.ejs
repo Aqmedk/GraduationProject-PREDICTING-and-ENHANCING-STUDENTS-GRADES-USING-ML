@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+
+    @keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+    body {
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      background-color: #133521;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-image: url('images/APPBACKGROUNDDD.jpg');
+      background-size: cover;
+       
+    }
+
+    .container {
+      text-align: center;
+      margin-bottom: 20px;
+      animation: slideUp 0.6s ease-out;
+      /* Space between the two containers */
+
+    }
+
+    .profile-pic {
+      width: 150px;
+      /* Adjust as needed */
+      height: 150px;
+      /* Adjust as needed */
+      border-radius: 10%;
+      /* Makes the image circular */
+      object-fit: cover;
+      /* Ensures the image fits well */
+      box-shadow: 0 10px 30px #000000;
+
+    }
+
+    .container1 {
+      text-align: center;
+      padding: 40px;
+      background-color: #0A3724;
+      border-radius: 15px;
+      width: 80%;
+      /* Adjust width as needed */
+      max-width: 500px;
+      /* Optional: limits maximum width */
+      box-shadow: 0 10px 30px #000000;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .main-text {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .sub-text {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 15px;
+      color: #222;
+      letter-spacing: 2px;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .name {
+      background: #0A3724;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 25px;
+      padding: 13px 50px;
+      box-shadow: 0 0 15px #000;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      margin-left: 30px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .level {
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      background: #ffffff;
+      color: #0c441f;
+      border: none;
+      border-radius: 10px;
+      background: #0A3724;
+      font-size: 25px;
+      color: #ffffff;
+      padding: 13px 50px;
+      box-shadow: 0 0 15px #000;
+      margin-right: 30px;
+      padding-left: 30px;
+      padding-right: 30px;
+
+    }
+
+    .LN {
+      display: flex;
+      flex-direction: row;
+      margin-top: 40px;
+    }
+
+    .achev {
+
+      font-size: 30px;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      text-align: left;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .pre {
+      background-color: #1D553D;
+      padding: 10px;
+      border-radius: 10px;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 30px;
+      text-align: left;
+
+    }
+
+    .over {
+
+      background-color: #1D553D;
+      padding: 10px;
+      border-radius: 10px;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 30px;
+      margin-top: 15px;
+      text-align: left;
+
+    }
+
+    .icon {
+
+      background-color: #1D553D;
+      padding: 10px;
+      border-radius: 10px;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 30px;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .button {
+      display: block;
+      position: relative;
+      width: 56px;
+      height: 56px;
+      margin: 0;
+      overflow: hidden;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+      border: 0;
+    }
+
+    .button:before,
+    .button:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      inset: 7px;
+    }
+
+    .button:before {
+      border: 4px solid #ffffff;
+      transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+        transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+    }
+
+    .button:after {
+      border: 4px solid #1D553D;
+      transform: scale(1.3);
+      transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+    }
+
+    .button:hover:before,
+    .button:focus:before {
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .button:hover:after,
+    .button:focus:after {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+        transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+    }
+
+    .button-box {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .button-elem {
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 17px 18px 0 18px;
+      transform: rotate(180deg);
+      fill: #000000;
+    }
+
+    .button:hover .button-box,
+    .button:focus .button-box {
+      transition: 0.4s;
+      transform: translateX(-56px);
+    }
+
+
+    .back-arrow {
+      top: 20px;
+      left: 20px;
+      position: fixed;
+    }
+
+    .lang {
+      top: 20px;
+      right: 20px;
+      position: fixed;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    <div class="back-arrow">
+      <a href="MainMenu" class="button">
+        <div class="button-box">
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+              </path>
+            </svg>
+          </span>
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z">
+              </path>
+            </svg>
+          </span>
+        </div>
+      </a>
+    </div>
+
+
+    <div>
+
+      <div class="container">
+        <div>
+          <img src="images/prof.PNG" alt="Profile Picture" class="profile-pic" />
+        </div>
+        <div class=" LN">
+          <div class="level"> <%= username %> </div>
+          <div class="name"> LEVEL <%= level %> </div>
+        </div>
+      </div>
+      <div class="achev">ACHIEVEMENTS</div>
+      <div class="container1">
+        <div class="pre"> PRECISION PRIZE</div>
+        <div class="over"> OVERACHIVERE</div>
+        <div class="icon"> ICON</div>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>

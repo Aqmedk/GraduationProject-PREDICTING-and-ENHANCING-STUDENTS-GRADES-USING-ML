@@ -1,0 +1,645 @@
+<%- include('partials/header') -%>
+
+<style>
+
+    /* Remove the body margin-top */
+    body {
+        margin-top: 0;
+    }
+
+    /* Add specific class for Quiz Performance page */
+    .quiz-performance-page {
+        margin-top: 1000px;
+    }
+
+    .option {
+        padding: 10px;
+        margin: 5px 0;
+        background-color: #2d6330;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .option:hover {
+        background-color: #154116;
+    }
+    .option.selected {
+        background-color: #154116;
+    }
+    .courseTitle{
+        font-weight: lighter;
+    }
+
+    .result-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: lighter;
+    }
+
+    .answer-correct {
+        color: #47d147;
+        font-weight: lighter;
+        border-left: 4px solid #47d147;
+        padding-left: 10px;
+    }
+
+    .answer-wrong {
+        color: #ff4d4d;
+        font-weight: lighter;
+        border-left: 4px solid #ff4d4d;
+        padding-left: 10px;
+    }
+
+    .question-text {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: white;
+        font-weight: lighter;
+    }
+
+    .remarks-section {
+        margin-top: 20px;
+    }
+
+    .remark-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .progress-bar {
+        background: rgba(255, 255, 255, 0.1);
+        height: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+    .progress {
+        background: #47d147;
+        height: 100%;
+        transition: width 0.5s ease-in-out;
+    }
+
+    .recommendation-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: start;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .recommendation-item i {
+        color: #47d147;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .recommendation-item.clickable {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .recommendation-item.clickable:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .recommendation-item .bi-arrow-right {
+        color: #47d147;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .recommendation-item.clickable:hover .bi-arrow-right {
+        opacity: 1;
+    }
+
+    .quiz-results-container {
+        min-height: 400px;
+    }
+
+    .result-page {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .btn {
+        margin-top: 20px;
+    }
+
+    .answers-review {
+        margin-top: 20px;
+    }
+
+    .answer-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+    }
+
+    .answer-status {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        margin-bottom: 8px;
+    }
+
+    .status-correct {
+        background: rgba(71, 209, 71, 0.2);
+        color: #47d147;
+    }
+
+    .status-wrong {
+        background: rgba(255, 77, 77, 0.2);
+        color: #ff4d4d;
+    }
+
+    .answer-question {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        color: white;
+    }
+
+    .answer-details {
+        display: flex;
+        justify-content: space-between;
+        color: #d3d3d3;
+        font-size: 0.9em;
+    }
+
+    .answers-heading {
+        font-size: 1.2em;
+        color: white;
+        margin-bottom: 15px;
+        font-weight: lighter;
+    }
+
+    .answers-section {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .questions-review {
+        margin-top: 20px;
+    }
+
+    .question-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        animation: fadeIn 0.5s ease-in-out;
+        animation-fill-mode: both;
+    }
+
+    .question-item:nth-child(1) { animation-delay: 0.1s; }
+    .question-item:nth-child(2) { animation-delay: 0.2s; }
+    .question-item:nth-child(3) { animation-delay: 0.3s; }
+    .question-item:nth-child(4) { animation-delay: 0.4s; }
+    .question-item:nth-child(5) { animation-delay: 0.5s; }
+
+    .question-status {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        margin-bottom: 8px;
+    }
+
+    .status-correct {
+        background: rgba(71, 209, 71, 0.2);
+        color: #47d147;
+    }
+
+    .status-incorrect {
+        background: rgba(255, 77, 77, 0.2);
+        color: #ff4d4d;
+    }
+
+    .performance-summary {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .summary-stats {
+        display: flex;
+        justify-content: space-around;
+        margin: 15px 0;
+    }
+
+    .stat-item {
+        color: #d3d3d3;
+    }
+
+    .stat-value {
+        font-size: 1.2em;
+        color: #47d147;
+        margin-top: 5px;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(45, 99, 48, 0.9);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        transition: background-color 0.3s ease;
+        z-index: 1000;
+    }
+
+    .scroll-to-top:hover {
+        background: rgba(21, 65, 22, 0.9);
+    }
+
+    .scroll-to-top.visible {
+        display: flex;
+    }
+
+
+</style>
+
+<div class="container">
+    <h1 id="courseTitle" class="courseTitle">Select a Course to Begin</h1>
+
+    <div id="courseSelection" >
+        <select id="courseSelect" class="courseSelect">
+            <option value="">-- Choose Course --</option>
+            <option value="CS383">CS383</option>
+            <option value="MATH116">MATH116</option>
+            <option value="CS214">CS214</option>
+        </select>
+        <button class="btn" onclick="startExam()">Start</button>
+    </div>
+
+    <div id="quiz" style="display: none;">
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsContainer"></div>
+        <button class="btn" onclick="nextQuestion()">NEXT</button>
+    </div>
+
+    <div id="quizResults" style="display: none;" class="quiz-results-container">
+        <!-- Page 1: Quiz Performance -->
+        <div id="performancePage" class="result-page quiz-performance-page">
+            <h1 class="courseTitle">Quiz Performance</h1>
+            <div class="remark-card">
+                <div class="progress-section">
+                    <div class="progress-item">
+                        <label>Your Score</label>
+                        <div class="progress-bar">
+                            <div class="progress" id="scoreProgress"></div>
+                        </div>
+                        <span class="progress-value" id="scoreValue"></span>
+                    </div>
+                </div>
+                <div class="questions-review" id="questionsReview">
+                    <!-- Questions will be inserted here dynamically -->
+                </div>
+            </div>
+            <button class="btn" onclick="showAnalysis()">View Analysis</button>
+        </div>
+
+        <!-- Page 2: Performance Analysis -->
+        <div id="analysisPage" class="result-page" style="display: none;">
+            <h1 class="courseTitle">Performance Analysis</h1>
+            <div class="remark-card">
+                <div class="recommendation-list" id="recommendations">
+                </div>
+            </div>
+            <button class="btn" onclick="showPerformance()">View Score</button>
+        </div>
+    </div>
+</div>
+
+<button class="scroll-to-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+<script>
+const quizzes = {
+    CS383: [
+        { question: "What is a database index?", options: ["Speeds up search", "Slows down writes", "Increases size", "None"], correct: 0 },
+        { question: "SQL stands for?", options: ["Structured Query Language", "Simple Query Language", "Syntax Query Language", "None"], correct: 0 },
+        { question: "Which SQL clause is used to filter records?", options: ["ORDER BY", "GROUP BY", "WHERE", "SELECT"], correct: 2 },
+        { question: "What does ACID stand for in databases?", options: ["Access, Control, Integrity, Data", "Atomicity, Consistency, Isolation, Durability", "All Clear Indexed Data", "None"], correct: 1 },
+        { question: "Which normal form removes transitive dependency?", options: ["1NF", "2NF", "3NF", "BCNF"], correct: 2 },
+        { question: "Which command is used to remove a table?", options: ["DELETE", "DROP", "REMOVE", "TRUNCATE"], correct: 1 },
+        { question: "What type of join returns all rows when there is a match in one of the tables?", options: ["INNER JOIN", "FULL JOIN", "LEFT JOIN", "RIGHT JOIN"], correct: 1 },
+        { question: "What is the purpose of the GROUP BY clause?", options: ["To sort results", "To filter data", "To aggregate data", "To delete data"], correct: 2 },
+        { question: "What is a foreign key?", options: ["Unique identifier", "Primary key in another table", "Auto-increment field", "Invalid key"], correct: 1 },
+        { question: "Which SQL statement is used to insert new data?", options: ["CREATE", "INSERT", "UPDATE", "SELECT"], correct: 1 }
+    ],
+    MATH116: [
+        { question: "What is the derivative of x²?", options: ["2x", "x", "x²", "None"], correct: 0 },
+        { question: "∫x dx equals?", options: ["x²/2 + C", "x + C", "x³/3 + C", "None"], correct: 0 },
+        { question: "What is the derivative of sin(x)?", options: ["cos(x)", "-sin(x)", "-cos(x)", "tan(x)"], correct: 0 },
+        { question: "What is the integral of 1/x?", options: ["ln|x| + C", "1/x² + C", "x + C", "x²/2 + C"], correct: 0 },
+        { question: "What is the limit of (sin x)/x as x approaches 0?", options: ["0", "1", "∞", "Does not exist"], correct: 1 },
+        { question: "d/dx [ln(x)] = ?", options: ["1/x", "x", "ln(x)", "0"], correct: 0 },
+        { question: "What is the derivative of e^x?", options: ["e^x", "xe^(x-1)", "1/e^x", "ln(x)"], correct: 0 },
+        { question: "Which of the following is a discontinuous function?", options: ["1/x", "x²", "sin(x)", "x³"], correct: 0 },
+        { question: "∫cos(x) dx = ?", options: ["sin(x) + C", "cos(x) + C", "-cos(x) + C", "-sin(x) + C"], correct: 0 },
+        { question: "What is the second derivative of x³?", options: ["6x", "3x²", "6x²", "9x"], correct: 0 }
+    ],
+    CS214: [
+        { question: "What is a pointer?", options: ["Stores address", "Stores value", "A function", "None"], correct: 0 },
+        { question: "What does malloc do?", options: ["Allocates memory", "Frees memory", "Reads file", "None"], correct: 0 },
+        { question: "Which symbol is used to access pointer value?", options: ["*", "&", "#", "%"], correct: 0 },
+        { question: "What is segmentation fault?", options: ["Invalid memory access", "Syntax error", "Compiler error", "Divide by zero"], correct: 0 },
+        { question: "What does 'free' do in C?", options: ["Releases memory", "Allocates memory", "Creates file", "Compiles code"], correct: 0 },
+        { question: "Which keyword is used for defining a structure?", options: ["struct", "structure", "define", "record"], correct: 0 },
+        { question: "Which operator is used for accessing members via pointer?", options: ["->", ".", "::", ":"], correct: 0 },
+        { question: "What is a NULL pointer?", options: ["0 address", "Random address", "Memory leak", "None"], correct: 0 },
+        { question: "Which of the following is not a valid data type in C?", options: ["float", "real", "int", "char"], correct: 1 },
+        { question: "What is the output of sizeof(int) in C (typically)?", options: ["4", "2", "8", "Depends on system"], correct: 3 }
+    ]
+};
+
+    let currentCourse = "";
+    let currentQuestion = 0;
+    let selectedAnswers = [];
+    let questions = [];
+
+    function startExam() {
+        const selected = document.getElementById("courseSelect").value;
+        if (!selected || !quizzes[selected]) {
+            alert("Please select a valid course.");
+            return;
+        }
+        currentCourse = selected;
+        questions = quizzes[selected].slice(0, 10);
+        document.getElementById("courseTitle").innerText = selected + " Exam";
+        document.getElementById("courseSelection").style.display = "none";
+        document.getElementById("quiz").style.display = "block";
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const q = questions[currentQuestion];
+        document.getElementById("questionText").innerText = `Q${currentQuestion + 1}: ${q.question}`;
+        const optionsContainer = document.getElementById("optionsContainer");
+        optionsContainer.innerHTML = "";
+        q.options.forEach((opt, index) => {
+            const div = document.createElement("div");
+            div.className = "option";
+            div.innerText = opt;
+            div.onclick = () => selectAnswer(div, index);
+            if (selectedAnswers[currentQuestion] === index) {
+                div.classList.add("selected");
+            }
+            optionsContainer.appendChild(div);
+        });
+    }
+
+    function selectAnswer(selectedDiv, index) {
+        selectedAnswers[currentQuestion] = index;
+        document.querySelectorAll(".option").forEach(opt => opt.classList.remove("selected"));
+        selectedDiv.classList.add("selected");
+    }
+
+    function nextQuestion() {
+        if (selectedAnswers[currentQuestion] === undefined) {
+            alert("Please select an answer before proceeding.");
+            return;
+        }
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        const totalQuestions = questions.length;
+        const correctAnswers = selectedAnswers.reduce((total, answer, index) => {
+            return total + (answer === questions[index].correct ? 1 : 0);
+        }, 0);
+        
+        const score = Math.round((correctAnswers / totalQuestions) * 100);
+        
+        // Hide quiz container
+        document.getElementById('quiz').style.display = 'none';
+        
+        // Show results container and performance page
+        const resultsDiv = document.getElementById('quizResults');
+        resultsDiv.style.display = 'block';
+        document.getElementById('performancePage').style.display = 'block';
+        document.getElementById('analysisPage').style.display = 'none';
+        
+        // Update progress bar and score
+        document.getElementById('scoreProgress').style.width = `${score}%`;
+        document.getElementById('scoreValue').textContent = `${score}%`;
+        
+        // Update questions review
+        const questionsReview = document.getElementById('questionsReview');
+        const correctCount = selectedAnswers.reduce((total, answer, index) => 
+            total + (answer === questions[index].correct ? 1 : 0), 0);
+        const correctPercentage = Math.round((correctCount / totalQuestions) * 100);
+
+        questionsReview.innerHTML = `
+            <div class="performance-summary">
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <div>Correct Answers</div>
+                        <div class="stat-value">${correctCount}/${totalQuestions}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Accuracy</div>
+                        <div class="stat-value">${correctPercentage}%</div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        questionsReview.innerHTML += questions.map((q, index) => {
+            const isCorrect = selectedAnswers[index] === q.correct;
+            return `
+                <div class="question-item">
+                    <span class="question-status ${isCorrect ? 'status-correct' : 'status-incorrect'}">
+                        ${isCorrect ? 'Correct' : 'Incorrect'}
+                    </span>
+                    <div class="question-text">${q.question}</div>
+                    <div class="answer-details">
+                        <span>Your answer: ${q.options[selectedAnswers[index]]}</span>
+                        ${!isCorrect ? `<span>Correct answer: ${q.options[q.correct]}</span>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Generate recommendations
+        const recommendationsDiv = document.getElementById('recommendations');
+        recommendationsDiv.innerHTML = '';
+        
+        // Analyze wrong answers and generate specific recommendations
+        const recommendations = [];
+        const wrongAnswers = selectedAnswers.map((answer, index) => ({
+            question: questions[index].question,
+            isCorrect: answer === questions[index].correct,
+            index: index
+        })).filter(q => !q.isCorrect);
+
+        // Get resource URLs based on topic
+        const getResourceUrl = (topic) => {
+            const resourceMap = {
+                'SQL': '/resources#CS383-sql',
+                'database': '/resources#CS383-database',
+                'normalization': '/resources#CS383-normalization',
+                'derivative': '/resources#MATH116-calculus',
+                'integral': '/resources#MATH116-integration',
+                'limit': '/resources#MATH116-limits',
+                'pointer': '/resources#CS214-pointers',
+                'malloc': '/resources#CS214-memory',
+                'struct': '/resources#CS214-structures'
+            };
+            return resourceMap[topic] || null;
+        };
+
+        // Course-specific recommendations with resource links
+        if (currentCourse === 'CS383') {
+            if (wrongAnswers.some(q => q.question.includes('SQL'))) {
+                recommendations.push({
+                    text: 'Review SQL fundamentals on W3Schools or PostgreSQL documentation',
+                    url: getResourceUrl('SQL')
+                });
+            }
+            if (wrongAnswers.some(q => q.question.includes('ACID'))) {
+                recommendations.push({
+                    text: 'Study database transaction properties in depth',
+                    url: getResourceUrl('database')
+                });
+            }
+            if (wrongAnswers.some(q => q.question.includes('normal form'))) {
+                recommendations.push({
+                    text: 'Practice database normalization exercises',
+                    url: getResourceUrl('normalization')
+                });
+            }
+        } else if (currentCourse === 'MATH116') {
+            if (wrongAnswers.some(q => q.question.includes('derivative'))) {
+                recommendations.push({
+                    text: 'Practice derivative rules using Khan Academy Calculus course',
+                    url: getResourceUrl('derivative')
+                });
+            }
+            if (wrongAnswers.some(q => q.question.includes('integral'))) {
+                recommendations.push({
+                    text: 'Focus on integration techniques and use online practice tools',
+                    url: getResourceUrl('integral')
+                });
+            }
+            if (wrongAnswers.some(q => q.question.includes('limit'))) {
+                recommendations.push({
+                    text: 'Review limit concepts and L\'Hôpital\'s rule',
+                    url: getResourceUrl('limit')
+                });
+            }
+        } else if (currentCourse === 'CS214') {
+            if (wrongAnswers.some(q => q.question.includes('pointer'))) {
+                recommendations.push({
+                    text: 'Practice pointer manipulation exercises in C',
+                    url: getResourceUrl('pointer')
+                });
+            }
+            if (wrongAnswers.some(q => q.question.includes('malloc'))) {
+                recommendations.push({
+                    text: 'Review memory allocation concepts and common memory leaks',
+                    url: getResourceUrl('malloc')
+                });
+            }
+            if (wrongAnswers.some(q => q.question.includes('struct'))) {
+                recommendations.push({
+                    text: 'Study structure and memory layout in C programming',
+                    url: getResourceUrl('struct')
+                });
+            }
+        }
+
+        // General score-based recommendations (without URLs)
+        if (score < 60) {
+            recommendations.push({ text: 'Schedule office hours with the professor to review difficult concepts' });
+            recommendations.push({ text: 'Join or form a study group for this course' });
+        } else if (score < 80) {
+            recommendations.push({ text: 'Create practice problems focusing on your weak areas' });
+            recommendations.push({ text: 'Review lecture notes and textbook chapters covering missed questions' });
+        } else {
+            recommendations.push({ text: 'Consider becoming a course tutor or teaching assistant' });
+            recommendations.push({ text: 'Explore advanced topics beyond the course material' });
+        }
+        
+        // Display recommendations with clickable links
+        recommendations.forEach(rec => {
+            const recHtml = rec.url 
+                ? `<div class="recommendation-item clickable" onclick="window.location.href='${rec.url}'">
+                    <i class="bi bi-lightbulb"></i>
+                    <p>${rec.text}</p>
+                    <i class="bi bi-arrow-right"></i>
+                   </div>`
+                : `<div class="recommendation-item">
+                    <i class="bi bi-lightbulb"></i>
+                    <p>${rec.text}</p>
+                   </div>`;
+            recommendationsDiv.innerHTML += recHtml;
+        });
+    }
+
+    function showAnalysis() {
+        document.getElementById('performancePage').style.display = 'none';
+        document.getElementById('analysisPage').style.display = 'block';
+    }
+
+    function showPerformance() {
+        document.getElementById('analysisPage').style.display = 'none';
+        document.getElementById('performancePage').style.display = 'block';
+    }
+
+    window.onscroll = function() {
+        const scrollButton = document.getElementById("scrollTop");
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollButton.classList.add("visible");
+        } else {
+            scrollButton.classList.remove("visible");
+        }
+    };
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+</script>
+
+<%- include('partials/footer') %>

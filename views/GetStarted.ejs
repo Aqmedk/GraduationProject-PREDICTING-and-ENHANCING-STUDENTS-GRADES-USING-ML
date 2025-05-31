@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <title>Predict</title>
+</head>
+
+<body>
+    <style>
+        .container {
+            margin-top: 100px;
+
+        }
+        .container img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <div class="container" style="margin-bottom: 100px; height: 90%;">
+        <img src="images/logo.png" alt="Logo">
+        <h1 style="margin-bottom: 20px; margin-top: -20px;font-size: 30px; font-weight: lighter;">PREDICTING &
+            ENHANCINGSTUDENT GRADES</h1>
+        <h2 style="font-weight: lighter;">About this project:</h2>
+        <p style="font-weight: lighter;">This project is a web application that predicts and enhances student grades
+            using machine learning algorithms.
+            It provides a user-friendly interface for students to input their data and receive personalized feedback on
+            their academic performance.</p>
+
+        <p style="font-weight: lighter;">Due to time constraints, the project only helps student with <b>3</b> main
+            courses which are <b>CS383</b>, <b>CS214</b> and <b>MATH116</b>.
+            You also have to finish these 3 courses to get the best out of this project, which are <b>CS222</b>,
+            <b>CS182</b> and <b>MATH115</b> otherwise, the prediction and enhancement will be less accurate.
+        </p>
+        <p>Start by registering or logging in!</p>
+        <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px; margin-bottom: 20px;">
+            <button class="btn" onclick="window.location.href='Register'">REGISTER</button>
+            <button class="btn" onclick="window.location.href='Login'">LOGIN</button>
+        </div>
+    </div>
+
+    <%- include("partials/footer.ejs") %>

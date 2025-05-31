@@ -1,0 +1,51 @@
+<%- include("partials/header.ejs") %>
+
+    <div class="container" style=" background: #0A3724; position: relative; margin-top: 40px;">
+        <h2 style="font-weight: lighter;">Edit Real Grades</h2>
+        <form action="/EditPage" method="post">
+            <label for="CS222">CS 222</label>
+            <select id="CS222" class="options" name="cs222">
+                <option value="CHOOSE">CHOOSE</option>
+                <option value="A+">A+</option>
+                <option value="A">A</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="C+">C+</option>
+                <option value="C">C</option>
+                <option value="D+">D+</option>
+                <option value="D">D</option>
+                <option value="F">F</option>
+            </select>
+
+            <label for="CS182">CS 182</label>
+            <select id="CS182" class="options" name="cs182">
+                <option value="CHOOSE">CHOOSE</option>
+                <option value="A+">A+</option>
+                <option value="A">A</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="C+">C+</option>
+                <option value="C">C</option>
+                <option value="D+">D+</option>
+                <option value="D">D</option>
+                <option value="F">F</option>
+            </select>
+
+            <label for="MATH115">MATH 115</label>
+            <select id="MATH115" class="options" name="math115">
+                <option value="CHOOSE">CHOOSE</option>
+                <option value="A+">A+</option>
+                <option value="A">A</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="C+">C+</option>
+                <option value="C">C</option>
+                <option value="D+">D+</option>
+                <option value="D">D</option>
+                <option value="F">F</option>
+            </select>
+            <button type="submit" class="btn" onclick="saveChanges()">Save</button>
+        </form>
+    </div>
+
+    <%- include("partials/footer.ejs") %>
